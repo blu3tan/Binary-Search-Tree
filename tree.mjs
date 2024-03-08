@@ -5,7 +5,6 @@ class Tree {
 	constructor(array = []) {
 		this.array = array;
 		this.root = this.buildTree(array);
-		console.log(mergeSort(array));
 	}
 
 	buildTree(array) {
@@ -35,9 +34,29 @@ class Tree {
 			this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
 		}
 	}
+
+	insert(value) {
+		if (this.root == null) return (this.root = new Node(value));
+		let currentNode = this.root;
+
+		while (currentNode) {
+			if (currentNode.data == value) return;
+			if (currentNode.data > value) {
+				if (currentNode.left == null)
+					return (currentNode.left = new Node(value));
+				currentNode = currentNode.left;
+			} else if (currentNode.data < value) {
+				if (currentNode.right == null)
+					return (currentNode.right = new Node(value));
+				currentNode = currentNode.right;
+			}
+		}
+	}
 }
 
 let sample = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const newTree = new Tree(sample);
 
+newTree.prettyPrint();
+newTree.insert(66);
 newTree.prettyPrint();
