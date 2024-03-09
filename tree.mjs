@@ -52,11 +52,51 @@ class Tree {
 			}
 		}
 	}
+
+	delete(value) {}
+
+	find(value, current = this.root) {
+		if (!current) return null;
+		if (current.data === value) return console.log(current);
+		this.find(value, current.left);
+		this.find(value, current.right);
+	}
+	//Traverse the tree depth first in-order
+	inOrder(root = this.root) {
+		if (!root) return [];
+		let leftValues = this.inOrder(root.left);
+		let rightValues = this.inOrder(root.right);
+		return [...leftValues, root.data, ...rightValues];
+	}
+
+	//Traverse the tree depth first pre-order
+	// preOrder() {
+	// 	let result = [];
+	// 	function traverse(node) {
+	// 		if (!node) return null;
+	// 		result.push(node.data);
+	// 		traverse(node.left);
+	// 		traverse(node.right);
+	// 	}
+	// 	traverse(this.root);
+	// 	return result;
+	// }
+	preOrder(root = this.root) {
+		if (!root) return [];
+		let rootValue = [];
+		rootValue.push(root.data);
+		let leftValues = this.preOrder(root.left);
+		let rightValues = this.preOrder(root.right);
+		return [...rootValue, ...leftValues, ...rightValues];
+	}
 }
 
 let sample = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const newTree = new Tree(sample);
 
 newTree.prettyPrint();
-newTree.insert(66);
-newTree.prettyPrint();
+newTree.find(9);
+let inOrder = newTree.inOrder();
+console.log(inOrder);
+let preOrder = newTree.preOrder();
+console.log(preOrder);
