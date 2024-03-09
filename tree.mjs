@@ -70,17 +70,6 @@ class Tree {
 	}
 
 	//Traverse the tree depth first pre-order
-	// preOrder() {
-	// 	let result = [];
-	// 	function traverse(node) {
-	// 		if (!node) return null;
-	// 		result.push(node.data);
-	// 		traverse(node.left);
-	// 		traverse(node.right);
-	// 	}
-	// 	traverse(this.root);
-	// 	return result;
-	// }
 	preOrder(root = this.root) {
 		if (!root) return [];
 		let rootValue = [];
@@ -88,6 +77,16 @@ class Tree {
 		let leftValues = this.preOrder(root.left);
 		let rightValues = this.preOrder(root.right);
 		return [...rootValue, ...leftValues, ...rightValues];
+	}
+
+	//Traverse the tree depth first post-order
+	postOrder(root = this.root) {
+		if (!root) return [];
+		let leftValues = this.postOrder(root.left);
+		let rightValues = this.postOrder(root.right);
+		let rootValue = [];
+		rootValue.push(root.data);
+		return [...leftValues, ...rightValues, ...rootValue];
 	}
 }
 
@@ -100,3 +99,5 @@ let inOrder = newTree.inOrder();
 console.log(inOrder);
 let preOrder = newTree.preOrder();
 console.log(preOrder);
+let postOrder = newTree.postOrder();
+console.log(postOrder);
