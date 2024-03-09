@@ -61,6 +61,23 @@ class Tree {
 		this.find(value, current.left);
 		this.find(value, current.right);
 	}
+
+	//Traverse the tree breadth-first level oder
+	levelOrder(node = this.root) {
+		if (!node) return null;
+		let result = [];
+		let queue = [node];
+		while (queue.length > 0) {
+			let firstValue = queue.shift();
+			result.push(firstValue.data);
+			if (firstValue.left) queue.push(firstValue.left);
+			if (firstValue.right) queue.push(firstValue.right);
+			// this.levelOrder(node.left);
+			// this.levelOrder(node.right);
+		}
+		return result;
+	}
+
 	//Traverse the tree depth first in-order
 	inOrder(root = this.root) {
 		if (!root) return [];
@@ -101,3 +118,5 @@ let preOrder = newTree.preOrder();
 console.log(preOrder);
 let postOrder = newTree.postOrder();
 console.log(postOrder);
+let levelOrder = newTree.levelOrder();
+console.log(levelOrder);
