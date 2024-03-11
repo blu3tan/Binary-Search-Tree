@@ -57,12 +57,28 @@ class Tree {
 
 	find(value, current = this.root) {
 		if (!current) return null;
-		if (current.data === value) return console.log(current);
+		if (current.data === value)
+			return console.log(`${current.data} is in the tree`);
 		this.find(value, current.left);
 		this.find(value, current.right);
 	}
 
-	//Traverse the tree breadth-first level oder
+	//Return the level of a given node, root is level 0
+	height(value, node = this.root, level = 0) {
+		if (!node) return null;
+		if (node.data === value)
+			return console.log(`${value} is at level ${level}`);
+		//if the value doesn't match goes down the left branch
+		//and each step increments the level
+		this.height(value, node.left, (level += 1));
+		//at the end of the least value in the left branch
+		//the level is decreased before going down the right side
+		level--;
+		//if on the right side there is a node the level is increased
+		this.height(value, node.right, (level += 1));
+	}
+
+	//Traverse the tree breadth-first level oder (iterative)
 	levelOrder(node = this.root) {
 		if (!node) return null;
 		let result = [];
@@ -72,13 +88,11 @@ class Tree {
 			result.push(firstValue.data);
 			if (firstValue.left) queue.push(firstValue.left);
 			if (firstValue.right) queue.push(firstValue.right);
-			// this.levelOrder(node.left);
-			// this.levelOrder(node.right);
 		}
 		return result;
 	}
 
-	//Traverse the tree depth first in-order
+	//Traverse the tree depth first in-order (recursive)
 	inOrder(root = this.root) {
 		if (!root) return [];
 		let leftValues = this.inOrder(root.left);
@@ -86,7 +100,7 @@ class Tree {
 		return [...leftValues, root.data, ...rightValues];
 	}
 
-	//Traverse the tree depth first pre-order
+	//Traverse the tree depth first pre-order (recursive)
 	preOrder(root = this.root) {
 		if (!root) return [];
 		let rootValue = [];
@@ -112,6 +126,7 @@ const newTree = new Tree(sample);
 
 newTree.prettyPrint();
 newTree.find(9);
+newTree.height(7);
 let inOrder = newTree.inOrder();
 console.log(inOrder);
 let preOrder = newTree.preOrder();
