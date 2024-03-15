@@ -53,29 +53,60 @@ class Tree {
 		}
 	}
 
-	delete(value) {}
+	delete(value, root = this.root) {
+		if (root == null) {
+			return root;
+		}
+
+		if (root.data > value) {
+			root.left = this.delete(value, root.left);
+		} else if (root.data < value) {
+			root.right = this.delete(value, root.right);
+		} else {
+			if (root.left == null) {
+				return root.right;
+			} else if (root.right == null) {
+				return root.left;
+			}
+			root.data = minValue(root);
+			root.right = this.delete(root.right, root.data);
+		}
+
+		return root;
+	}
+
+	minValue(root) {
+		let min;
+		while (root != null) {
+			min = root.data;
+			root = root.left;
+		}
+		return min;
+	}
 
 	find(value, current = this.root) {
 		if (!current) return null;
 		if (current.data === value)
-			return console.log(`${current.data} is in the tree`);
+			//Log the return to test the function
+			//return console.log(`${current.data} is in the tree`);
+			return current;
 		this.find(value, current.left);
 		this.find(value, current.right);
 	}
 
-	//Return the level of a given node, root is level 0
-	height(value, node = this.root, level = 0) {
-		if (!node) return null;
+	//Returns the depth of a given node, root is level 0
+	depth(value, node = this.root, level = 0) {
+		if (!node) return 0;
 		if (node.data === value)
 			return console.log(`${value} is at level ${level}`);
 		//if the value doesn't match goes down the left branch
 		//and each step increments the level
-		this.height(value, node.left, (level += 1));
+		this.depth(value, node.left, (level += 1));
 		//at the end of the least value in the left branch
 		//the level is decreased before going down the right side
 		level--;
 		//if on the right side there is a node the level is increased
-		this.height(value, node.right, (level += 1));
+		this.depth(value, node.right, (level += 1));
 	}
 
 	//Traverse the tree breadth-first level oder (iterative)
@@ -125,8 +156,9 @@ let sample = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const newTree = new Tree(sample);
 
 newTree.prettyPrint();
-newTree.find(9);
-newTree.height(7);
+newTree.delete(7);
+newTree.prettyPrint();
+
 let inOrder = newTree.inOrder();
 console.log(inOrder);
 let preOrder = newTree.preOrder();
