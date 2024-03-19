@@ -93,6 +93,27 @@ class Tree {
 		this.find(value, current.left);
 		this.find(value, current.right);
 	}
+	//Returns the height of the tree
+	height(node = this.root) {
+		//base case
+		if (node === null) return -1;
+		const leftHeight = this.height(node.left);
+		const rightHeight = this.height(node.right);
+		return Math.max(leftHeight, rightHeight) + 1;
+	}
+
+	//Check if the tree is balanced
+	isBalanced(root = this.root) {
+		//An empty tree is balanced
+		if (root == null || !root) return false;
+
+		let leftSide = root.left;
+		let rightSide = root.right;
+
+		if (Math.abs(this.height(leftSide) - this.height(rightSide)) > 1)
+			return false;
+		else return true;
+	}
 
 	//Returns the depth of a given node, root is level 0
 	depth(value, node = this.root, level = 0) {
@@ -158,6 +179,11 @@ const newTree = new Tree(sample);
 newTree.prettyPrint();
 newTree.delete(7);
 newTree.prettyPrint();
+newTree.depth(6345);
+let height = newTree.height();
+console.log(height);
+let answer = newTree.isBalanced();
+console.log(answer);
 
 let inOrder = newTree.inOrder();
 console.log(inOrder);
