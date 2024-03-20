@@ -115,6 +115,13 @@ class Tree {
 		else return true;
 	}
 
+	//re-balance the tree
+	reBalance(root = this.root) {
+		let tempArray = this.levelOrder();
+		tempArray.sort((a, b) => a - b);
+		return (this.root = buildTree(tempArray));
+	}
+
 	//Returns the depth of a given node, root is level 0
 	depth(value, node = this.root, level = 0) {
 		if (!node) return 0;
